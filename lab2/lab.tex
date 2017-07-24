@@ -1,0 +1,226 @@
+\documentclass{ffslides}
+\ffpage{30}{\numexpr 16/9}
+\usepackage{fancyvrb}
+\usepackage[T1]{fontenc}
+\usepackage{underscore}
+\begin{document}
+\normalpage{Specification}{
+This program will read in a list of cities from a file and store them
+in a Linked List. The program will have different methods to manipulate 
+the list including traversing and destroying. Document the process with diagrams. 
+}
+\normalpage{Analysis}{
+\qi{Inputs: File with names of cities in random order.}
+\qi{Process: Read this cities from the file into a list using functions 
+loadList, loadListInOrder, and buildDirectly. The list is printed then 
+destroyed before calling the next load function }
+\qi{Outputs: Display the list in each of the 3 different methods
+used to build it.}
+}
+\normalpage{Design}{
+\qi{node: structure for the Nodes}
+\qi{sll: structure for the single linked list including member functions}
+\qi{insert: insert city into front of list}
+\qi{insertInOrder: insert city in alphabetical order}
+\qi{buildDirectly: insert city in the order of the cities.dat file}
+\qi{displayList: prints out the list to the console}
+\qi{destroyList: deletes each node in the list}
+\qi{loadList: opens the file passed in and builds a list using insert}
+\qi{loadListInOrder: opens the file passed in and build a list using inserInOrder}
+\qi{buildDirectly: opens the file passed in and builds a list using buildDirectly}
+\qi{main: the main function creates a SLL and passes it to the load functions}
+}
+
+\normalpage{Implementation: lab.h File}{
+This header file includes the three load functions required by the program 
+along with various included libraries.
+\VerbatimInput{lab.h}
+}
+
+\normalpage{Implementation: node.h File}{
+This header file includes the structure for the node structure. The node
+has 2 data elements: the city, and the next pointer. There is also a 
+constructor for quicker initialization of the data.
+\VerbatimInput{node.h}
+}
+
+\normalpage{Implementation: sll.h File}{
+This is the header file for the single linked list structure. The sll only
+has two data element which is the head pointer and the tail pointer. 
+This file also includes the declarations for member functions used 
+to manipulate the list.
+\VerbatimInput{sll.h}
+}
+
+\normalpage{Implementation: insert.cpp File}{
+This is the insert member function for SLL. It takes in a string as the
+city name. First it checks if it is an empty list and if it is, it will set
+that city as the head of the list.  If there are nodes in the list, it will
+set the new cities next pointer to the current head node. Then it will set
+the head to the new actual head of the list. A list built with this 
+method will be in reverse order.
+\VerbatimInput{insert.cpp}
+}
+
+\normalpage{
+\ctext{0.05}{.1}{.3}{fig. 1}
+\ctext{0.5}{.1}{.3}{fig. 2}
+\putfig{.05}{.15}{.3}{imgs/insert1}
+\putfig{.5}{.15}{.3}{imgs/insert2}
+}
+
+\normalpage{
+\ctext{0.05}{.1}{.3}{fig. 3}
+\ctext{0.5}{.1}{.3}{fig. 4}
+\putfig{.05}{.15}{.3}{imgs/insert3}
+\putfig{.5}{.15}{.3}{imgs/insert4}
+}
+
+\normalpage{
+\ctext{0.05}{.1}{.3}{fig. 5}
+\ctext{0.5}{.1}{.3}{fig. 6}
+\putfig{.05}{.15}{.3}{imgs/insert5}
+\putfig{.5}{.15}{.3}{imgs/insert6}
+}
+
+\normalpage{
+\ctext{0.05}{.1}{.3}{fig. 7}
+\putfig{.05}{.15}{.3}{imgs/insert7}
+}
+
+\normalpage{Implementation: insertInOrder.cpp File}{
+This is the insert member function that will insert the new city in 
+alphabatical order. This function uses a pointer to a Node pointer and 
+traverse the list by following the pointers rather than the Nodes. The
+list will be in alphabetical order.
+
+\VerbatimInput{insertInOrder.cpp}
+}
+
+\normalpage{
+\ctext{0.05}{.1}{.3}{fig. 1}
+\ctext{0.5}{.1}{.3}{fig. 2}
+\putfig{.05}{.15}{.3}{imgs/insertio1}
+\putfig{.5}{.15}{.3}{imgs/insertio2}
+}
+
+\normalpage{
+\ctext{0.05}{.1}{.3}{fig. 3}
+\ctext{0.5}{.1}{.3}{fig. 4}
+\putfig{.05}{.15}{.3}{imgs/insertio3}
+\putfig{.5}{.15}{.3}{imgs/insertio4}
+}
+
+\normalpage{
+\ctext{0.05}{.1}{.3}{fig. 5}
+\ctext{0.5}{.1}{.3}{fig. 6}
+\putfig{.05}{.15}{.3}{imgs/insertio5}
+\putfig{.5}{.15}{.3}{imgs/insertio6}
+}
+
+\normalpage{
+\ctext{0.05}{.1}{.3}{fig. 7}
+\ctext{0.5}{.1}{.3}{fig. 8}
+\putfig{.05}{.15}{.3}{imgs/insertio7}
+\putfig{.5}{.15}{.3}{imgs/insertio8}
+}
+
+\normalpage{
+\ctext{0.05}{.1}{.3}{fig. 9}
+\putfig{.05}{.15}{.3}{imgs/insertio9}
+}
+
+\normalpage{Implementation: buildDirectly.cpp File}{
+This member function of the SLL struct will build the list using a tail 
+pointer. This function is passed in the city and create a new node. 
+It will set the current tail node to this new node.
+The tail will then be set to the new node added. 
+\VerbatimInput{buildDirectly.cpp}
+}
+
+\normalpage{
+\ctext{0.05}{.1}{.3}{fig. 1}
+\ctext{0.5}{.1}{.3}{fig. 2}
+\putfig{.05}{.15}{.3}{imgs/buildDirectly1}
+\putfig{.5}{.15}{.3}{imgs/buildDirectly2}
+}
+
+\normalpage{
+\ctext{0.05}{.1}{.3}{fig. 3}
+\ctext{0.5}{.1}{.3}{fig. 4}
+\putfig{.05}{.15}{.3}{imgs/buildDirectly3}
+\putfig{.5}{.15}{.3}{imgs/buildDirectly4}
+}
+
+\normalpage{
+\ctext{0.05}{.1}{.3}{fig. 5}
+\ctext{0.5}{.1}{.3}{fig. 6}
+\putfig{.05}{.15}{.3}{imgs/buildDirectly5}
+\putfig{.5}{.15}{.3}{imgs/buildDirectly6}
+}
+
+\normalpage{
+\ctext{0.05}{.1}{.3}{fig. 7}
+\putfig{.05}{.15}{.3}{imgs/buildDirectly7}
+}
+
+
+
+
+
+\normalpage{Implementation: displayList.cpp File}{
+This method is used to print the cities to the console. It checks to see
+if the list is not empty. If the list is not empty, it will start at the 
+head and print out its city element. Then it will follow the link of pointers
+to traverse the list.
+\VerbatimInput{displayList.cpp}
+}
+
+\normalpage{Implementation: destroyList.cpp File}{
+This method is used to destroy the list by deleting every node in the list.
+Using a temp pointer to hold the remaining portion of the list, the function
+deletes the first node until there is none left. Finally it sets the head to
+nullptr.
+\VerbatimInput{destroyList.cpp}
+}
+
+\normalpage{Implementation: loadList.cpp File}{
+This function takes in a file name and a pointer to a list. The function
+opens the file cities.dat, returning false if it fails. If successful, 
+the function will read in each line from the file and call the insert 
+member function of the list. Finally it returns true if it is successful.
+\VerbatimInput{loadList.cpp}
+}
+
+\normalpage{Implementation: loadListInOrder.cpp File}{
+This function opens and reads from file the same as the loadList function.
+loadListInOrder calls the insertInOrder function rather than the insert function.
+\VerbatimInput{loadListInOrder.cpp}
+}
+
+\normalpage{Implementation: loadListDirectly.cpp File}{
+This function is same as the other two loadList functions with the only
+difference being that this one calls the buildDirectly function.
+\VerbatimInput{loadListDirectly.cpp}
+}
+
+\normalpage{Implementation: lab.cpp File}{
+This is the main function. It first creates a new SLL and then passes it 
+to the loadList function. If the list is succesfully created, displayList 
+will be called. The list is then destroyed by calling destroyList, and the
+list is rebuilt using the next method. When the list is built and destroyed
+with all 3 methods, the SLL is deleted and the program ends.
+\VerbatimInput{lab.cpp}
+}
+
+\normalpage{Test}{
+Test case that shows the three results. Insert should result in a list 
+in the inverse as the cities.dat file. Insert in order should return
+a list that is in alphabetical order. Build Directly should give a list
+in the opposite order of the Insert method which will be the same order
+as the cities.dat file.
+}
+\putfig{.1}{.3}{.2}{imgs/lab2test1}
+\putfig{.6}{.3}{.2}{imgs/lab2test2}
+
+\end{document}
