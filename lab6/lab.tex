@@ -1,0 +1,307 @@
+\documentclass{ffslides}
+\ffpage{25}{\numexpr 16/9}
+\usepackage{fancyvrb}
+\usepackage[T1]{fontenc}
+\usepackage{underscore}
+\usepackage{pst-node,pst-tree}
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+\begin{document}
+\normalpage{Specification}{
+This telegraph program demonstrates how morse code is built using a binary
+tree. The program will read in morse code symbols and build a tree by going 
+left for '.' and right for '-'. The program will demonstrate that it works by
+taking in a string and outputing its morse code translation. Then it will read the
+morse code back in and translate it back into letters. 
+}
+\normalpage{Analysis}{
+\qi{Inputs: The program reads in a list of morse code defined in the TELEGRAPH::table. 
+It will also get an user inputted string from the console.}
+\qi{Process: The morse code tree is first built by reading the table. In the code section
+of the MORSECODE object, the program will read each character, building the tree left or right
+based on if it is a dot or a dash. Then the program will prompt the user for an input. When the input
+is recieved, the program will encode it into morse code and display it. Then it will read the morse code
+back into the program and decode it into letters. }
+\qi{Outputs: This program will output the message encrypted into morse code, and the message after it
+has been decrypted.}
+}
+\normalpage{Design}{
+\qi{morse.h: Header file for struct MORSECODE, TNODE and class TELEGRAPH}
+\qi{morse.cpp: This contains the morse code table}
+\qi{buildtree.cpp: Reads from the MORSECODE table and build the binary tree}
+\qi{destroytree.cpp: Public function calls the overloaded private function which deletes each
+node recursively}
+\qi{encode.cpp: Takes in two references to char arrays, the first being the string to translate, and the 
+2nd is used to store the encoded translation}
+\qi{decode.cpp: Takes in two references to char arrays, the first being the morse code string to 
+decode, and the second is to store the decoded message}
+}
+
+\normalpage{Implementation: morse.h File}{
+\ctext{.5}{0}{.4}{%
+DOT and DASH are constants to refer to '.' and '-'. The struct MORSECODE has a char element symbol which
+will be the letter, number, or punctuation marks. It also has a char array to store its 
+morse code translation.
+
+The struct TNODE also has a char element named symbol. The node only needs to know the 
+english translation of the character. As a tree node, TNODE also as a left and a right pointer.
+}
+\ctext{0}{-.1}{.4}{%
+\fvset{firstline=1,lastline=19}
+\VerbatimInput{morse.h}
+}
+}
+
+\normalpage{Implementation: morse.h File}{
+\ctext{.5}{0}{.4}{%
+This is the private section of the TELEGRAPH class. It contains the morse code table
+that will be used to create the tree. It contains a TNODE pointer as its root. 
+There is also a recursive display function that is passed a pointer to a node and traverses
+the tree in order. It also declares a private member function for DestroyTree which takes
+a pointer to a TNODE as its parameter.
+}
+\ctext{0}{-.1}{.4}{%
+\fvset{firstline=19,lastline=32}
+\VerbatimInput{morse.h}
+}
+}
+
+\normalpage{Implementation: morse.h File}{
+\ctext{.5}{0}{.4}{%
+These are the declarations for the public member functions of the TELEGRAPH class.
+The static void function displayTree will call the private recursiveDisplay function.
+
+}
+\ctext{0}{-.1}{.4}{%
+\fvset{firstline=32,lastline=42}
+\VerbatimInput{morse.h}
+}
+}
+
+\normalpage{Implementation: morse.cpp File}{
+\ctext{.5}{0}{.4}{%
+This is the morse code table that will be read in to build the tree.
+}
+\ctext{0}{-.1}{.4}{%
+\VerbatimInput{morse.cpp}
+}
+}
+
+\normalpage{Implementation: buildtree.cpp File}{
+\ctext{.5}{0}{.4}{%
+The variable i is used to traverse the table. The char pointer dd is used
+to traverse the MORSECODE code elemenent. There is no tree when this function
+is called so the root is set to a new TNODE. 
+}
+\ctext{0}{-.1}{.4}{%
+\fvset{firstline=1,lastline=12}
+\VerbatimInput{buildtree.cpp}
+}
+}
+
+\normalpage{Implementation: buildtree.cpp File}{
+\ctext{.5}{0}{.4}{%
+In the outer for loop, i iterates through the MORSECODE table, stopping at
+each element. The pointer node is set to the root at the beginning of each
+iteration. The inner for loop has dd iterating through the code element which 
+are the dots and dashes. 
+When i = 0, and dd = table[i], it checks if *dd is a dot. Because it is a dot, 
+it checks if there is an node to the left of the current node. Because there is 
+no node to the left, it creates a new node on the left. Then it sets node equal
+to the new node, moving our tracker down the tree. The inner loop moves onto the 
+next iteration.
+
+\pstree{\TCircle{*}}{
+        {\TCircle{}}
+            {\tlput{"."}}
+    }
+
+}
+
+\ctext{0}{-.1}{.4}{%
+\fvset{firstline=12,lastline=21}
+\VerbatimInput{buildtree.cpp}
+}
+}
+
+\normalpage{Implementation: buildtree.cpp File}{
+\ctext{.5}{0}{.4}{%
+The next character is a DASH so it checks if there is a node to the right.
+Because there is no node to the right, it creates a node. Now that the inner
+for loop is complete, it sets the symbol into the node. Then it continues onto
+the next MORSECODE.
+
+\pstree{\TCircle{*} }{
+        \pstree{\TCircle{*}}{
+            {\Tr{}}
+            {\TCircle{A}}
+        }
+        \pstree{\Tr{}}{}
+}
+
+}
+
+\ctext{0}{-.1}{.4}{%
+\fvset{firstline=21,lastline=34}
+\VerbatimInput{buildtree.cpp}
+}
+}
+
+\normalpage{Implementation: buildtree.cpp File}{
+\ctext{.5}{0}{.4}{%
+The next MORSECODE is "-..." so it will go to the right once, then
+left three times. It creates a new node each time if there is none.
+
+}
+
+\ctext{0}{0}{.4}{%
+\pstree[levelsep=5ex]{\TCircle{*} }{
+        \pstree{\TCircle{*}}{
+            {\Tr{}}
+            {\TCircle{A}}
+        }
+        \pstree{\TCircle{*}}{
+            \pstree{\TCircle{*}}{
+                \pstree{\TCircle{*}}{
+                    {\TCircle{B}}
+                    {\Tr{}}
+                }
+                {\Tr{}}
+            }
+            {{\Tr{}}}
+        }
+}
+}
+}
+
+\normalpage{Implementation: buildtree.cpp File}{
+\ctext{0}{0}{.4}{%
+"C" is DASH DOT DASH DOT.
+\pstree[levelsep=5ex]{\TCircle{*} }{
+        \pstree{\TCircle{*}}{
+            {\Tr{}}
+            {\TCircle{A}}
+        }
+        \pstree{\TCircle{*}}{
+            \pstree{\TCircle{*}}{
+                \pstree{\TCircle{*}}{
+                    {\TCircle{B}}
+                    {\Tr{}}
+                }
+                \pstree{\TCircle{*}}{
+                    {\TCircle{C}}
+                    {\Tr{}}
+                }
+            }
+            {{\Tr{}}}
+        }
+}
+}
+
+\ctext{.5}{0}{.4}{%
+"D" is DASH DOT DOT which already has a node there, so it will replace
+the "*" with "D".
+
+\pstree[levelsep=5ex]{\TCircle{*} }{
+        \pstree{\TCircle{*}}{
+            {\Tr{}}
+            {\TCircle{A}}
+        }
+        \pstree{\TCircle{*}}{
+            \pstree{\TCircle{*}}{
+                \pstree{\TCircle{D}}{
+                    {\TCircle{B}}
+                    {\Tr{}}
+                }
+                \pstree{\TCircle{*}}{
+                    {\TCircle{C}}
+                    {\Tr{}}
+                }
+            }
+            {{\Tr{}}}
+        }
+}
+
+
+}
+}
+
+
+\normalpage{Implementation: destroytree.cpp File}{
+\ctext{.5}{0}{.4}{%
+When the public function DestroyTree is called, the overloaded private member
+function DestroyTree(TNODE) is called. The private DestroyTree function traverses
+down the tree until it finds a leaf node and deletes it. As the function returns
+up the call stack, using a post oder traversal method, it deletes the node on the
+left if there is one, then right if there is one, and finally deleting itself.
+}
+\ctext{0}{-.1}{.4}{%
+\VerbatimInput{destroytree.cpp}
+}
+}
+
+
+
+
+
+\normalpage{Implementation: encode.cpp File}{
+\ctext{.5}{0}{.4}{%
+The string inputed by the console is read as a char array. It first converts 
+all letters to uppercase. Then it looks through the table to find the symbol. Once
+the symbol is matched, it uses the pointer dd to iterate the morse code and add it to the morse
+array.
+}
+\ctext{0}{-.05}{.4}{%
+\fvset{firstline=3,lastline=21}
+\VerbatimInput{encode.cpp}
+}
+}
+
+\normalpage{Implementation: decode.cpp File}{
+\ctext{.5}{0}{.4}{%
+Decode takes in two pointers to arrays as parameters. The first is the morse array. 
+The pointer dd will iterate through this array. We also have a TNODE pointer called node. 
+This pointer will be our runner. The outer for loop will start reading each charater in the 
+morse array. When it reads a DOT, the node runner will move to the left. When it reads a DASH,
+the node runner will move to the left. When it reads a " ", the symbol is saved into the *text
+and text is incremented by one charater space. Then the node runner is set back to the root. When
+the whole morse array is read, a "\\0" is added to signify the end of a string.
+}
+\ctext{0}{-.05}{.4}{%
+\fvset{firstline=3,lastline=20}
+\VerbatimInput{decode.cpp}
+}
+}
+\normalpage{Implementation: tstmorse.cpp File}{
+\ctext{.5}{0}{.4}{%
+This is the main function. It first creates a TELEGRAPH object station and two 
+char arrays. TELEGRAPH calls its static member function buildTree to build the 
+morse code tree. displayTree is called to verify the tree is built properly. Then
+the program asks for the user to input a message. When the message is inputted, the program
+will call Encode which will turn the message into morse code. This message is printed out.
+Then the program will take the morse code and pass it to the Decode function which will
+recreate the original string. Finally the program calls DestroyTree which will free up
+the memory by deleting each node recursively
+}
+\ctext{0}{-.05}{.4}{%
+\fvset{firstline=5,lastline=24}
+\VerbatimInput{tstmorse.cpp}
+}
+}
+
+\normalpage{Test}{
+This is a test of the displayTree function. The displayTree function prints
+in order of smallest to largest or left, root, right. When compared to the 
+morse code tree, we can tell the program has built the tree correctly.
+}
+\putfig{.1}{.4}{.35}{lab6a}
+\putfig{.5}{.4}{.35}{lab6b}
+
+\normalpage{Test}{
+This is a test of the encoding and decoding. When we test for a word "hello"
+we should get DOT DOT DOT DOT\tab DOT\tab DOT DASH DASH DASH\tab DOT 
+DASH DASH DASH\tab DASH DASH DASH.
+This corresponds to the result shown in the test.
+The decoded message should be "HELLO" in all caps which the test proves. 
+}
+\putfig{.1}{.4}{.35}{lab6c}
+\end{document}
